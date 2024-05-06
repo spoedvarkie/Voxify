@@ -6,6 +6,7 @@ import moviepy.editor as mp
 import pyperclip
 import whisper
 import tempfile
+import shutil
 
 # Define a temporary directory for storing audio files
 TEMP_DIR = tempfile.mkdtemp()
@@ -54,6 +55,9 @@ class VideoToTextConverter:
         self.exit_button = tk.Button(self.button_frame, text="Exit", command=root.quit)
         self.exit_button.pack(side=tk.LEFT, padx=5, pady=5, fill=tk.X, expand=True)
 
+        # Bind the cleanup_temp_directory method to the WM_DELETE_WINDOW event
+        self.root.protocol("WM_DELETE_WINDOW", self.cleanup_temp_directory)
+
     def select_video(self):
         self.video_file_path = filedialog.askopenfilename(filetypes=[("Video Files", "*.mp4;*.avi")])
 
@@ -83,6 +87,12 @@ class VideoToTextConverter:
 
         # Destroy the spinner window
         self.spinner_window.destroy()
+
+    def cleanup_temp_directory(self):
+        # Remove the temporary directory and its contents
+        shutil.rmtree(TEMP_DIR)
+        # Close the root window
+        self.root.destroy()
 
     def video_to_transcript(self, video_path, audio_path):
         # Load the video from file
