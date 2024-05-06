@@ -88,12 +88,6 @@ class VideoToTextConverter:
         # Destroy the spinner window
         self.spinner_window.destroy()
 
-    def cleanup_temp_directory(self):
-        # Remove the temporary directory and its contents
-        shutil.rmtree(TEMP_DIR)
-        # Close the root window
-        self.root.destroy()
-
     def video_to_transcript(self, video_path, audio_path):
         # Load the video from file
         video = mp.VideoFileClip(video_path)
@@ -144,8 +138,19 @@ class VideoToTextConverter:
         # Update the GUI to ensure spinner window is rendered
         self.root.update()
 
+    def exit_application(self):
+        # Call the cleanup_temp_directory method before exiting
+        self.cleanup_temp_directory()
+
+    def cleanup_temp_directory(self):
+        # Remove the temporary directory and its contents
+        shutil.rmtree(TEMP_DIR)
+        # Exit the application
+        self.root.quit()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
     app = VideoToTextConverter(root)
     root.mainloop()
+    app.cleanup_temp_directory()
