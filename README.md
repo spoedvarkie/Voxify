@@ -13,5 +13,5 @@ Resources
 Build
 * Using pyinstaller
 * pyinstaller --noconfirm --onedir --add-data "venv\Lib\site-packages\whisper;whisper\" main.py
-onedir to get _internal folder with necessary libs
-noconfirm cause I got tired of typing yes to confirm overwrite of dist folder
+* onedir to get _internal folder with necessary libs
+* noconfirm cause I got tired of typing yes to confirm overwrite of dist folder
